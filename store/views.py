@@ -13,22 +13,8 @@ class ProductList(ListView):
     template_name = 'products_List.html'
     context_object_name = 'productsObject'
 
-    def image(self):
-        productx = ProductList()
-        variables = RequestContext(self, {
-            'productx': productx
-        })
-        return render('/templates/store/products_List.html', variables)
-
 
 class ProductDetail(DetailView):
     model = products
     template_name = 'store/product_details.html'
     context_object_name = 'details'
-
-    def image(self):
-        productx = ProductDetail()
-        variables = RequestContext(self, {
-            'productx': productx
-        })
-        return render('/templates/store/product_deails.html', variables)
