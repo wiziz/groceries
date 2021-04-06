@@ -8,7 +8,7 @@ class products(models.Model):
     description = models.TextField(max_length=10000)
     price = models.DecimalField(decimal_places=2, max_digits=20)
     photo = models.ImageField(upload_to='images', null=True)
-    availablility = models.BooleanField(default=True)
+    availability = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
