@@ -1,0 +1,6 @@
+<a href = "{% url 'products' %}">Go Back</a>
+<form method='POST'>
+    {% csrf_token %}
+    <p>Are you sure? This product will be deleted permanently "{{productsObject.name}}"</p>
+    <input type='submit' value='Delete'>
+</form>

@@ -22,8 +22,22 @@ class ProductDetail(DetailView):
     context_object_name = 'details'
 
 
-class createProduct(CreateView):
+class CreateProduct(CreateView):
     model = products
     template_name = 'store/create_Product.html'
     fields = '__all__'
+    success_url = reverse_lazy('products')
+
+
+class UpdateProduct(UpdateView):
+    model = products
+    template_name = 'store/update_Product.html'
+    fields = '__all__'
+    success_url = reverse_lazy('products')
+
+
+class DeleteProduct(DeleteView):
+    model = products
+    context_object_name = 'productsObject'
+    template_name = 'store/delete_Product.html'
     success_url = reverse_lazy('products')
