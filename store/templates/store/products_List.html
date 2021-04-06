@@ -1,0 +1,17 @@
+<h1>Products List</h1>
+
+<table>
+    <tr>
+        <th>Items</th>
+        <th>Price</th>
+        <th>image</th>
+    </tr>
+    {% for product in productsObject%}
+    <tr>
+        <td>{{product.name}}</td>
+        <td>{{product.price}}</td>
+        <td><img src = "{{product.photo.url}}"></td>
+        <td><a href = "/details/{{product.id}}/">Views</a></td>
+    </tr>
+    {% endfor %}
+</table>
