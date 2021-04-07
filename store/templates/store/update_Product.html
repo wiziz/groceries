@@ -1,3 +1,7 @@
+{% extends 'store/main.html' %}
+
+{% block content %}
+
 <h1>Edit this Product</h1>
 <a href ="{% url 'products' %}"> Go Back</a>
 <form method='POST' action="" enctype="multipart/form-data">
@@ -5,3 +9,5 @@
     {{form.as_p}}
   <p><button type="submit">Submit</button>
 </form>
+
+{% endblock content %}
