@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 
 
 class products(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=200)
     description = models.TextField(max_length=10000)
     price = models.DecimalField(decimal_places=2, max_digits=20)
