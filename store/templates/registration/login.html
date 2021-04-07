@@ -10,6 +10,8 @@
     <form method='POST'>
         {% csrf_token %}
         {{form.as_p}}
+        <a>Enter OTP</a>
+        <input type='text' name='otp'>
         <input class="button" type='submit' value='login'>
     </form>
 

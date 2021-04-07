@@ -9,12 +9,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.urls import reverse_lazy
-from .models import products
+from .models import products, Userdetails
 from django import forms
 # Create your views here.
 
 
 class Login(LoginView):
+    model = Userdetails
     fields = '__all__'
     redirect_authenticated_user = True
 

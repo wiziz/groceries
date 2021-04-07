@@ -15,3 +15,16 @@ class products(models.Model):
 
     class Meta:
         ordering = ['name']
+
+
+class Userdetails(models.Model):
+    username = models.CharField(max_length=200)
+    email = models.CharField(max_length=200)
+    address = models.TextField(max_length=10000)
+    type_of_user = models.IntegerField(default=0)
+    postal_code = models.DecimalField(decimal_places=2, max_digits=20)
+    phone = models.IntegerField(default=0)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['username']
