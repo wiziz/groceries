@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.template import RequestContext, Template
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 from django.urls import reverse_lazy
 from .models import products
 from django import forms
@@ -13,12 +15,29 @@ from django import forms
 
 
 class Login(LoginView):
-    template_name = 'store/login.html'
     fields = '__all__'
     redirect_authenticated_user = True
 
     def success_url(self):
         return reverse_lazy('products')
+
+
+class RegisterPage(FormView):
+    template_name = 'registration/register.html'
+    form_class = UserCreationForm
+    redirect_authenticated_user = True
+    success_url = reverse_lazy('products')
+
+    def form_valid(self, form):
+        user = form.save()
+        if user is not None:
+            login(self.request, user)
+        return super().form_valid(form)
+
+    def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('products')
+        return super().get(*args, **kwargs)
 
 
 class ProductList(LoginRequiredMixin, ListView):
@@ -55,10 +74,6 @@ class UpdateProduct(LoginRequiredMixin, UpdateView):
     template_name = 'store/update_Product.html'
     fields = ['name', 'description', 'price', 'photo', 'availability']
     success_url = reverse_lazy('products')
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(CreateProduct, self).form_valid(form)
 
 
 class DeleteProduct(LoginRequiredMixin, DeleteView):

@@ -1,11 +1,12 @@
 from django.urls import path
-from .views import ProductList, ProductDetail, CreateProduct, UpdateProduct, DeleteProduct, LoginView
+from .views import ProductList, ProductDetail, CreateProduct, UpdateProduct, DeleteProduct, LoginView, RegisterPage
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
+    path('register/', RegisterPage.as_view(), name='register'),
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
     path('', ProductList.as_view(), name='products'),
     path('details/<int:pk>/', ProductDetail.as_view(), name='details'),
