@@ -7,6 +7,14 @@
 
 <h1>Products List</h1>
 <h3><a href="{% url 'createProduct'%}">Add Products</a></h3>
+
+
+<form method='GET'>
+    <input type='text', name='search-area' value = {{search_input}}>
+    <input type='submit' value='Search'>
+</form>
+
+
 <table>
     <tr>
         <th>Items</th>
