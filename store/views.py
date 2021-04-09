@@ -11,12 +11,13 @@ from django.contrib.auth import login
 from django.urls import reverse_lazy
 from .models import products, Userdetails
 from django import forms
+from .forms import CreateUserForm
 # Create your views here.
 
 
 class Login(LoginView):
-    model = Userdetails
-    fields = '__all__'
+
+    template_name = 'registration/login.html'
     redirect_authenticated_user = True
 
     def success_url(self):
@@ -25,7 +26,7 @@ class Login(LoginView):
 
 class RegisterPage(FormView):
     template_name = 'registration/register.html'
-    form_class = UserCreationForm
+    form_class = CreateUserForm
     redirect_authenticated_user = True
     success_url = reverse_lazy('products')
 
