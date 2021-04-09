@@ -5,7 +5,7 @@ from django.views.generic.detail import DetailView
 from django.template import RequestContext, Template
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.urls import reverse_lazy
@@ -32,6 +32,8 @@ class RegisterPage(FormView):
 
     def form_valid(self, form):
         user = form.save()
+        group = form.cleaned_data['group']
+        group.user_set.add(user)
         if user is not None:
             login(self.request, user)
         return super().form_valid(form)
@@ -67,7 +69,9 @@ class ProductDetail(LoginRequiredMixin, DetailView):
     context_object_name = 'details'
 
 
-class CreateProduct(LoginRequiredMixin, CreateView):
+class CreateProduct(UserPassesTestMixin, LoginRequiredMixin, CreateView):
+    def test_func(self):
+        return not self.request.user.groups.filter(name='customer').exists()
     model = products
     template_name = 'store/create_Product.html'
     fields = ['name', 'description', 'price', 'photo', 'availability']
@@ -78,14 +82,18 @@ class CreateProduct(LoginRequiredMixin, CreateView):
         return super(CreateProduct, self).form_valid(form)
 
 
-class UpdateProduct(LoginRequiredMixin, UpdateView):
+class UpdateProduct(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
+    def test_func(self):
+        return not self.request.user.groups.filter(name='customer').exists()
     model = products
     template_name = 'store/update_Product.html'
     fields = ['name', 'description', 'price', 'photo', 'availability']
     success_url = reverse_lazy('products')
 
 
-class DeleteProduct(LoginRequiredMixin, DeleteView):
+class DeleteProduct(UserPassesTestMixin, LoginRequiredMixin, DeleteView):
+    def test_func(self):
+        return not self.request.user.groups.filter(name='customer').exists()
     model = products
     context_object_name = 'productsObject'
     template_name = 'store/delete_Product.html'
