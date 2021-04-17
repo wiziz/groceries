@@ -13,6 +13,9 @@ from .models import products
 from django import forms
 # Create your views here.
 
+def index(request):
+    prod=products.get_all_products()
+    return render(request,'orders/index.html',{'products':prod})
 
 class Login(LoginView):
     fields = '__all__'
@@ -42,7 +45,7 @@ class RegisterPage(FormView):
 
 class ProductList(LoginRequiredMixin, ListView):
     model = products
-    template_name = 'products_List.html'
+    template_name = 'store/products_List.html'
     context_object_name = 'productsObject'
 
     def get_context_data(self, **kwargs):
